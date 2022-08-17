@@ -96,8 +96,8 @@ Predicting the orientation directly from the ground truth data would not match t
 usage scenario of the network, and therefore, the network would not be learning how
 to predict the next orientation based on the previously predicted one.
 Instead, for every element in a training batch, we iteratively predict the orientation
-$r$ times (e.g., $r=50$). Then, we compute the MSE loss by comparing the final predicted
-body orientation $\mathbf{\hat{d}}$ with the ground truth orientation $\mathbf{d^*}$ after $r$ frames.
+\( r \) times (e.g., \( r=50 \) ). Then, we compute the MSE loss by comparing the final predicted
+body orientation \( \mathbf{\hat{d}} \) with the ground truth orientation \( \mathbf{d^*} \) after \( r \) frames.
 </div>
 
 <br>
@@ -109,7 +109,7 @@ Motion Matching for VR
 Motion Matching searches over an animation database for the best match for the current avatar
 pose and the predicted trajectory.
 To find the best match, we compute a new database with the main features defining locomotion. 
-A feature vector $\mathbf{z} \in \mathbb{R}^{27}$ is defined for each pose. This feature vector combines
+A feature vector \( \mathbf{z} \in \mathbb{R}^{27} \) is defined for each pose. This feature vector combines
 two types of information: the current pose and the trajectory. When comparing feature vectors,
 the former ensures no significant changes in the pose and thus smooth transitions;
 the latter drives the animation towards our target trajectory. Feature vectors are defined as follows:
@@ -117,11 +117,11 @@ the latter drives the animation towards our target trajectory. Feature vectors a
     \mathbf{z} = \left( \mathbf{z^v}, \mathbf{z^l}, \mathbf{z^p}, \mathbf{z^d} \right)
 \label{eq:z}
 \end{equation*}
-where $ \mathbf{z^v}, \mathbf{z^l} $ are the current pose features and $ \mathbf{z^p}, \mathbf{z^d} $
-are the trajectory features. More precisely, $\mathbf{z^v} \in \mathbb{R}^{9}$ are the velocities
-of the feet and hip joints, $\mathbf{z^l} \in \mathbb{R}^{6}$ are the positions of the feet joints,
-$\mathbf{z^p} \in \mathbb{R}^{6}$ and $\mathbf{z^d} \in \mathbb{R}^{6}$ are the future 2D positions
-and 2D orientations of the character $0.33$, $0.66$ and $1.00$ seconds ahead.
+where \(  \mathbf{z^v}, \mathbf{z^l} \) are the current pose features and \(  \mathbf{z^p}, \mathbf{z^d} \) 
+are the trajectory features. More precisely, \( \mathbf{z^v} \in \mathbb{R}^{9} \) are the velocities
+of the feet and hip joints, \( \mathbf{z^l} \in \mathbb{R}^{6} \) are the positions of the feet joints,
+\( \mathbf{z^p} \in \mathbb{R}^{6} \) and \( \mathbf{z^d} \in \mathbb{R}^{6} \) are the future 2D positions
+and 2D orientations of the character \( 0.33 \) , \( 0.66 \) and \( 1.00 \) seconds ahead.
 <center>
 <figure style="display:inline-block;margin:10px;padding:0"><img src="assets/img/features.gif" alt="features" width="75%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
@@ -156,9 +156,11 @@ Overview Video
 </b></center></h3>
 
 <center>
-<iframe width="800" height="450"
-src="https://www.youtube.com/embed/crU9oLX0GnM">
-</iframe>
+<div class="video_wrapper">
+	<iframe frameborder="0" width="100%" height="100%"
+	src="https://www.youtube.com/embed/crU9oLX0GnM">
+	</iframe>
+</div>
 </center>
 
 -----
