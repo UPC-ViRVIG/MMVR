@@ -5,27 +5,27 @@ permalink: /
 ---
 
 <center>
-<figure style="display:inline-block;margin:0;padding:0"><img src="/assets/img/teaser.jpg" alt="teaser" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
+<figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/teaser.jpg" alt="teaser" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
 
 <br>
 
 <div class="img_horizontal_container">
-	<a href="/assets/pdf/motion_matching_vr.pdf">
+	<a href="assets/pdf/motion_matching_vr.pdf">
 	<div class="img-with-text">
-		<img src="/assets/img/article_icon.svg" alt="paper" />
+		<img src="assets/img/article_icon.svg" alt="paper" />
 		<p><b>Paper</b></p>
 	</div>
 	</a>
 	<a href="https://github.com/UPC-ViRVIG/MMVR">
 	<div class="img-with-text">
-		<img src="/assets/img/github_icon.svg" alt="code" />
+		<img src="assets/img/github_icon.svg" alt="code" />
 		<p><b>Code</b></p>
 	</div>
 	</a>
 	<a href="">
 	<div class="img-with-text">
-		<img src="/assets/img/database_icon.svg" alt="data" />
+		<img src="assets/img/database_icon.svg" alt="data" />
 		<p><b>Data</b></p>
 	</div>
 	</a>
@@ -51,10 +51,10 @@ the user orientation, which in turn allows us to represent not only forward move
 
 <div class="row">
   <div class="column">
-    <figure style="display:inline-block;margin:0;padding:0"><img src="/assets/img/dancing.gif" alt="dancing avatar" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
+    <figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/dancing.gif" alt="dancing avatar" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
   </div>
   <div class="column">
-	<figure style="display:inline-block;margin:0;padding:0"><img src="/assets/img/first_person.gif" alt="first-person view" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
+	<figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/first_person.gif" alt="first-person view" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
   </div>
 </div>
 
@@ -73,7 +73,7 @@ Our system can be divided into three parts:
 - Final pose adjustments
 
 <center>
-<figure style="display:inline-block;margin:0;padding:0"><img src="/assets/img/Pipeline.png" alt="pipeline" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
+<figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/Pipeline.png" alt="pipeline" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
 
 <br>
@@ -89,7 +89,7 @@ Instead, we trained a lightweight feedforward neural network to predict the body
 velocity and angular velocity of all three devices.
 
 <center>
-<figure style="display:inline-block;margin:0;padding:0"><img src="/assets/img/nn.png" alt="orientation prediction neural network" width="75%" /><figcaption style="text-align:center"></figcaption></figure>
+<figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/nn.png" alt="orientation prediction neural network" width="75%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
 
 Predicting the orientation directly from the ground truth data would not match the real
@@ -123,7 +123,7 @@ of the feet and hip joints, $\mathbf{z^l} \in \mathbb{R}^{6}$ are the positions 
 $\mathbf{z^p} \in \mathbb{R}^{6}$ and $\mathbf{z^d} \in \mathbb{R}^{6}$ are the future 2D positions
 and 2D orientations of the character $0.33$, $0.66$ and $1.00$ seconds ahead.
 <center>
-<figure style="display:inline-block;margin:10px;padding:0"><img src="/assets/img/features.gif" alt="features" width="75%" /><figcaption style="text-align:center"></figcaption></figure>
+<figure style="display:inline-block;margin:10px;padding:0"><img src="assets/img/features.gif" alt="features" width="75%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
 
 </div>
@@ -142,7 +142,7 @@ In order to obtain the upper body pose for the arms, we can use the hand control
 for an Inverse Kinematics algorithm. This solution is fast to compute and provides a good solution
 for the user to interact with the environment in VR.
 <center>
-<figure style="display:inline-block;margin:10px;padding:0"><img src="/assets/img/upper_ik.gif" alt="upper body IK" width="30%" /><figcaption style="text-align:center"></figcaption></figure>
+<figure style="display:inline-block;margin:10px;padding:0"><img src="assets/img/upper_ik.gif" alt="upper body IK" width="30%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
 
 </div>
