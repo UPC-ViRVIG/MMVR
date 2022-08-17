@@ -73,7 +73,7 @@ Our system can be divided into three parts:
 - Final pose adjustments
 
 <center>
-<figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/Pipeline.png" alt="pipeline" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
+<figure style="display:inline-block;margin:0;padding:0"><img src="assets/img/pipeline.png" alt="pipeline" width="100%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
 
 <br>
