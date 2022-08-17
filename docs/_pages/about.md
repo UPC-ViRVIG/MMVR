@@ -36,6 +36,8 @@ permalink: /
 <h3><center><b>
 Abstract
 </b></center></h3>
+
+<div style="text-align: justify;">
 The animation of user avatars plays a crucial role in conveying their pose, gestures, and relative distances to virtual objects
 or other users. Consumer-grade VR devices typically include three trackers: the Head Mounted Display (HMD) and
 two handheld VR controllers. Since the problem of reconstructing the user pose from such sparse data is ill-defined,
@@ -48,6 +50,7 @@ together with the velocity and rotation of the HMD to build a feature vector tha
 MoCap database with animations of VR users wearing a HMD and used it to test our approach on both self-avatars and other
 users’ avatars. Our results show that our system can provide a large variety of lower body animations while correctly matching
 the user orientation, which in turn allows us to represent not only forward movements but also stepping in any direction.
+</div>
 
 <div class="row">
   <div class="column">
@@ -78,7 +81,7 @@ Our system can be divided into three parts:
 
 <br>
 
-<div style="background-color:rgba(244, 251, 255, 1.0); vertical-align: middle; padding:10px 20px;">
+<div style="background-color:rgba(244, 251, 255, 1.0); vertical-align: middle; padding:10px 20px; text-align: justify;">
 <h3><b>
 Body Orientation Prediction
 </b></h3>
@@ -102,7 +105,7 @@ body orientation \( \mathbf{\hat{d}} \) with the ground truth orientation \( \ma
 
 <br>
 
-<div style="background-color:rgba(255, 247, 247, 1.0); vertical-align: middle; padding:10px 20px;">
+<div style="background-color:rgba(255, 247, 247, 1.0); vertical-align: middle; padding:10px 20px; text-align: justify;">
 <h3><b>
 Motion Matching for VR
 </b></h3>
@@ -130,7 +133,7 @@ and 2D orientations of the character \( 0.33 \) , \( 0.66 \) and \( 1.00 \) seco
 
 <br>
 
-<div style="background-color:rgba(255, 252, 243, 1.0); vertical-align: middle; padding:10px 20px;">
+<div style="background-color:rgba(255, 252, 243, 1.0); vertical-align: middle; padding:10px 20px; text-align: justify;">
 <h3><b>
 Final pose adjustments
 </b></h3>
@@ -141,6 +144,7 @@ data is available in consumer-grade VR.
 In order to obtain the upper body pose for the arms, we can use the hand controllers as end effectors
 for an Inverse Kinematics algorithm. This solution is fast to compute and provides a good solution
 for the user to interact with the environment in VR.
+
 <center>
 <figure style="display:inline-block;margin:10px;padding:0"><img src="assets/img/upper_ik.gif" alt="upper body IK" width="30%" /><figcaption style="text-align:center"></figcaption></figure>
 </center>
