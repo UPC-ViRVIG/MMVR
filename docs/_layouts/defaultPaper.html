@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+
+  <!-- Head -->
+  <head>
+  {%- if page.redirect -%}
+    <meta http-equiv="refresh" content="3; url={{ site.baseurl | prepend: site.url }}/" />
+  {%- endif -%}
+  {% include head.html %}
+  <style>
+
+	.project-name{
+		width: 1000px;
+		margin-top:50px;
+		margin-bottom:auto;
+		margin-left:auto;
+		margin-right:auto;
+		text-align:center; /*centers horizontally*/
+	}
+	
+	.img-with-text{
+		text-align: center;
+		width: 175px;
+		height: 100px;
+		padding: 0px;
+	}
+	.img-with-text img {
+		display: block;
+		margin: 0 auto;
+	}	
+	
+	.img_horizontal_container{
+		display: flex;
+		justify-content: center;
+	}
+		
+	/* Three image containers (use 25% for four, and 50% for two, etc) */
+	.column {
+	  float: left;
+	  width: 50.0%;
+	  padding: 5px;
+	}
+
+	/* Clear floats after image containers */
+	.row::after {
+	  content: "";
+	  clear: both;
+	  display: table;
+	}
+	
+	/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+	@media screen and (max-width: 500px) {
+	  .column {
+		width: 100%;
+	  }
+	}
+ 
+  </style>
+  </head>
+
+  <!-- Body -->
+  <body>
+
+    <!-- Header -->
+	<header class="page-header" role="banner">
+      <h1 class="project-name"><center><b>Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices</b></center></h1>
+	  <p class="conference-name"><center> 21st annual ACM SIGGRAPH / Eurographics Symposium on Computer Animation (SCA 2022)</center><p>
+	  <br>
+      <h5 class="project-tagline"><center><a href=https://joseluisponton.com/>Jose Luis Ponton</a> &nbsp;&nbsp; 
+      <a href=https://haoranyun.com/>Haoran Yun</a> &nbsp;&nbsp; <a href=https://www.cs.upc.edu/~virtual/home/index.html>Carlos Andujar</a> &nbsp;&nbsp; <a href=https://www.cs.upc.edu/~npelechano/>Nuria Pelechano</a> </center> </h5>
+      <p class="project-affiliation"><center><a href=https://www.upc.edu/en>Universitat Politècnica de Catalunya</a>, Barcelona, Spain &nbsp; </center></p>      
+    </header>
+
+    <!-- Content -->
+    <div class="container mt-5">
+      {{ content }}
+    </div>
+
+    <!-- JavaScripts -->
+    {% include scripts/jquery.html %}
+    {% include scripts/bootstrap.html %}
+    {% include scripts/masonry.html %}
+    {% include scripts/misc.html %}
+    {% include scripts/mathjax.html %}
+    {% include scripts/analytics.html %}
+  </body>
+</html>
