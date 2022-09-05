@@ -300,9 +300,9 @@ GameObject:
   - component: {fileID: 1795449175783500850}
   - component: {fileID: 5623477885838440008}
   - component: {fileID: 2260823498105195474}
-  - component: {fileID: 2260823498105195475}
-  - component: {fileID: 2260823498105195476}
-  - component: {fileID: 2260823498105195477}
+  - component: {fileID: 7146762250501547896}
+  - component: {fileID: 8277237326702170864}
+  - component: {fileID: 7179467560559957918}
   m_Layer: 0
   m_Name: ybot
   m_TagString: Untagged
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MotionMatching: {fileID: 0}
   ForwardLocalVector: {x: 0, y: 0, z: 1}
---- !u!114 &2260823498105195475
+--- !u!114 &7146762250501547896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,11 +371,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414525212290430600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a4669bdf38a2549b568718730b5f55, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d9643e11c77c0d4fb27fbcf6ff4839c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fixTransforms: 0
   solver:
+    executedInEditor: 0
     IKPosition: {x: -0.7377996, y: 1.4344572, z: -0.059244286}
     IKPositionWeight: 1
     root: {fileID: 1795449175783500850}
@@ -448,12 +449,14 @@ MonoBehaviour:
         sqrMag: 0
         axis: {x: 0, y: 0, z: 0}
       target: {fileID: 0}
-      bendGoal: {fileID: 2260823499102974603}
       positionWeight: 1
       rotationWeight: 1
-      shoulderRotationMode: 0
       shoulderRotationWeight: 1
+      shoulderRotationMode: 0
       shoulderTwistWeight: 1
+      shoulderYawOffset: 45
+      shoulderPitchOffset: -30
+      bendGoal: {fileID: 0}
       bendGoalWeight: 0
       swivelOffset: 0
       wristToPalmAxis: {x: 0, y: 0, z: 0}
@@ -465,7 +468,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
---- !u!114 &2260823498105195476
+--- !u!114 &8277237326702170864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -474,11 +477,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414525212290430600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a4669bdf38a2549b568718730b5f55, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d9643e11c77c0d4fb27fbcf6ff4839c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixTransforms: 1
+  fixTransforms: 0
   solver:
+    executedInEditor: 0
     IKPosition: {x: 0.7377993, y: 1.4344571, z: -0.059243925}
     IKPositionWeight: 1
     root: {fileID: 1795449175783500850}
@@ -551,12 +555,14 @@ MonoBehaviour:
         sqrMag: 0
         axis: {x: 0, y: 0, z: 0}
       target: {fileID: 0}
-      bendGoal: {fileID: 2260823497148645238}
       positionWeight: 1
       rotationWeight: 1
-      shoulderRotationMode: 0
       shoulderRotationWeight: 1
+      shoulderRotationMode: 0
       shoulderTwistWeight: 1
+      shoulderYawOffset: 45
+      shoulderPitchOffset: -30
+      bendGoal: {fileID: 0}
       bendGoalWeight: 0
       swivelOffset: 0
       wristToPalmAxis: {x: 0, y: 0, z: 0}
@@ -568,7 +574,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
---- !u!114 &2260823498105195477
+--- !u!114 &7179467560559957918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -577,11 +583,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414525212290430600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ea7dbf9b0894e4a909120e64ad3eae, type: 3}
+  m_Script: {fileID: 11500000, guid: 776adaaacdc5c4e8ab0395120a6e972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fixTransforms: 0
   solver:
+    executedInEditor: 0
     IKPosition: {x: 0.00000019286834, y: 1.5995548, z: 2.9990625}
     IKPositionWeight: 1
     root: {fileID: 1795449175783500850}
@@ -597,6 +604,7 @@ MonoBehaviour:
       length: 0
       sqrMag: 0
       axis: {x: 0, y: 0, z: 1}
+      baseForwardOffsetEuler: {x: 0, y: 0, z: 0}
     eyes: []
     bodyWeight: 0
     headWeight: 1

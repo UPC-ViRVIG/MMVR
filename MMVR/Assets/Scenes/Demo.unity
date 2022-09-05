@@ -736,7 +736,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1337947318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2cc7d89728636341b2e06344513dff4, type: 3}
+  m_Script: {fileID: 11500000, guid: b14643ffcde2f2946b722cfff468d27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SimulatorRig: {fileID: 474313155}
@@ -1285,5 +1285,38 @@ PrefabInstance:
       propertyPath: solver.target
       value: 
       objectReference: {fileID: 1290278861}
-    m_RemovedComponents: []
+    - target: {fileID: 7146762250501547896, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+      propertyPath: solver.arm.target
+      value: 
+      objectReference: {fileID: 1030292549}
+    - target: {fileID: 7146762250501547896, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+      propertyPath: solver.arm.bendGoal
+      value: 
+      objectReference: {fileID: 4837594384210058882}
+    - target: {fileID: 7179467560559957918, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+      propertyPath: solver.target
+      value: 
+      objectReference: {fileID: 1290278861}
+    - target: {fileID: 8277237326702170864, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+      propertyPath: solver.arm.target
+      value: 
+      objectReference: {fileID: 1370596361}
+    - target: {fileID: 8277237326702170864, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+      propertyPath: solver.arm.bendGoal
+      value: 
+      objectReference: {fileID: 4837594384210058881}
+    m_RemovedComponents:
+    - {fileID: 2260823498105195475, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+    - {fileID: 2260823498105195476, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+    - {fileID: 2260823498105195477, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+--- !u!4 &4837594384210058881 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2260823497148645238, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+  m_PrefabInstance: {fileID: 4837594384210058880}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4837594384210058882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2260823499102974603, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
+  m_PrefabInstance: {fileID: 4837594384210058880}
+  m_PrefabAsset: {fileID: 0}
