@@ -50,7 +50,7 @@ The project is divided into two folders, ``MMVR`` and ``python``, containing the
 
 Demo scenes consist of two major GameObjects: VRCharacterController and MotionMatchingController:
 
-VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward* which enables to ignore the orientation prediction and use the HMD forward direction as body direction; *Do Campling* which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
+VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward* which ignores the orientation prediction and uses the HMD forward direction as body direction when set to True; *Do Campling* which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
 
 MotionMatchingController parameters allow enabling/disabling some features such as inertialize blending or foot lock.
 
