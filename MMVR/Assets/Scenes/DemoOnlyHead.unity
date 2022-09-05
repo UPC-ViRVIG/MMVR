@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 1725389249}
   - component: {fileID: 1725389248}
   m_Layer: 0
-  m_Name: Trigger to calibrate height
+  m_Name: Right B button to calibrate height
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
