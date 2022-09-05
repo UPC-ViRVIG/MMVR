@@ -48,6 +48,12 @@ The project is divided into two folders, ``MMVR`` and ``python``, containing the
 
 5. Use Oculus Link or Air Link to connect your Meta Quest to the PC and press Play in the Unity Editor. 
 
+Demo scenes consist of two major GameObjects: VRCharacterController and MotionMatchingController:
+
+VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward* which enables to ignore the orientation prediction and use the HMD forward direction as body direction; *Do Campling* which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
+
+MotionMatchingController parameters allow enabling/disabling some features such as inertialize blending or foot lock.
+
 ## Data
 
 The processed data required to execute the project can be downloaded from [here](https://drive.google.com/file/d/1xLnj1kV9GzhhUr_Dw8O7dhGb2Vudeah_/view?usp=sharing).
