@@ -12,6 +12,8 @@
 
 This repository contains the implementation of the method shown in the paper *Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices* presented at the **21st annual ACM SIGGRAPH / Eurographics Symposium on Computer Animation (SCA 2022)**.
 
+This project is based on my Motion Matching implementation for Unity. If you want to learn more about Motion Matching, you can visit the project [here](https://github.com/JLPM22/MotionMatching).
+
 Get an overview of the paper by visiting the [project website](https://upc-virvig.github.io/MMVR/) or watching the [video](https://www.youtube.com/embed/crU9oLX0GnM)!
 
 Download the paper [here](docs/assets/pdf/motion_matching_vr.pdf)!
@@ -36,9 +38,9 @@ The project is divided into two folders, ``MMVR`` and ``python``, containing the
 
 ## Quick Start
 
-1. Clone this repository
+1. Clone this repository.
 
-2. Install **Unity 2021.2.13f1** (other versions may work but are not tested)
+2. Install **Unity 2021.2.13f1** (other versions may work but are not tested).
 
 3. Download the processed dataset [here](https://drive.google.com/file/d/1xLnj1kV9GzhhUr_Dw8O7dhGb2Vudeah_/view?usp=sharing) and extract it into ``Unity_Project_Path/Assets/MMData``, thus, ``MMData`` folder should contain three folders ``Animations``, ``Data`` and ``Models``.
 
@@ -53,6 +55,8 @@ Demo scenes consist of two major GameObjects: VRCharacterController and MotionMa
 VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward* which ignores the orientation prediction and uses the HMD forward direction as body direction when set to True; *Do Campling* which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
 
 MotionMatchingController parameters allow enabling/disabling some features such as inertialize blending or foot lock.
+
+To obtain a more detailed description on how to use the Motion Matching code of this project, you can visit my [Motion Matching project](https://github.com/JLPM22/MotionMatching), on which this project is based.
 
 ## Data
 
