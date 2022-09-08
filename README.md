@@ -12,11 +12,11 @@
 
 This repository contains the implementation of the method shown in the paper *Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices* presented at the **21st annual ACM SIGGRAPH / Eurographics Symposium on Computer Animation (SCA 2022)**.
 
-This project is based on my Motion Matching implementation for Unity. If you want to learn more about Motion Matching, you can visit the project [here](https://github.com/JLPM22/MotionMatching).
-
 Get an overview of the paper by visiting the [project website](https://upc-virvig.github.io/MMVR/) or watching the [video](https://www.youtube.com/embed/crU9oLX0GnM)!
 
 Download the paper [here](docs/assets/pdf/motion_matching_vr.pdf)!
+
+This project is based on my Motion Matching implementation for Unity. If you want to learn more about Motion Matching, you can visit the project [here](https://github.com/JLPM22/MotionMatching).
 
 ![dancing avatar](docs/assets/img/dancing.gif)
 
