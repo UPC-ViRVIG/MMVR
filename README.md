@@ -71,11 +71,14 @@ All motions are recorded by the same actor in different VR systems (Meta Quest a
 If you find our research useful, please cite our paper:
 
 ```
-@article{ponton2022mmvr,
-author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria},
-title = {Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices},
-journal = {Computer Graphics Forum},
-year = {2022}
+@article {ponton2022mmvr,
+	journal = {Computer Graphics Forum},
+	title = {{Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices}},
+	author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria},
+	year = {2022},
+	publisher = {The Eurographics Association and John Wiley & Sons Ltd.},
+	ISSN = {1467-8659},
+	DOI = {10.1111/cgf.14628}
 }
 ```
 

@@ -175,10 +175,13 @@ Overview Video
 Citation
 </b></h3>
 <div style="background-color:rgba(0, 0, 0, 0.03); vertical-align: middle; padding:10px 20px;">
-@article{ponton2022mmvr, <br>
-    author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria}, <br>
-    title = {Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices}, <br>
-    journal = {Computer Graphics Forum}, <br>
-	year  = {2022} <br>
+@article {ponton2022mmvr, <br>
+	journal = {Computer Graphics Forum}, <br>
+	title = {{Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices}}, <br>
+	author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria}, <br>
+	year = {2022}, <br>
+	publisher = {The Eurographics Association and John Wiley & Sons Ltd.}, <br>
+	ISSN = {1467-8659}, <br>
+	DOI = {10.1111/cgf.14628} <br>
 }
 </div>
