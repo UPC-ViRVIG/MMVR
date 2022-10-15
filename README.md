@@ -52,11 +52,27 @@ The project is divided into two folders, ``MMVR`` and ``python``, containing the
 
 Demo scenes consist of two major GameObjects: VRCharacterController and MotionMatchingController:
 
-VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward* which ignores the orientation prediction and uses the HMD forward direction as body direction when set to True; *Do Campling* which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
+VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward*, which ignores the orientation prediction and uses the HMD forward direction as body direction when set to True; *Do Campling*, which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
 
 MotionMatchingController parameters allow enabling/disabling some features such as inertialize blending or foot lock.
 
-To obtain a more detailed description on how to use the Motion Matching code of this project, you can visit my [Motion Matching project](https://github.com/JLPM22/MotionMatching), on which this project is based.
+To obtain a more detailed description of how to use the Motion Matching code of this project, you can visit my [Motion Matching project](https://github.com/JLPM22/MotionMatching), on which this project is based.
+
+**Leg Bending**
+
+To enable leg bending in the demo scene, first disable the GameObject with name *------Without Leg Bending------* and enable the one with name *------With Leg Bending-------*. The main difference lies in the MotionMatchingController, where the latter references the different databases for leg bending.
+
+![leg-bending-inspector](docs/assets/img/LegBending.PNG)
+
+At run-time, to calibrate the height, press the *B* button in your right controller while standing up. This is an important step to calibrate the Leg Bending.
+
+## Issues with Final IK
+
+Sometimes, depending on the version of Final IK or how the project was imported, the references to Final IK scripts may be lost. In case references are lost, in the GameObject with the name Avatar (AvatarLegBending if using leg bending), there should be 3 scripts from Final IK as in the following pictures:
+
+![finalik-left-inspector](docs/assets/img/LeftArmIK.PNG)
+
+![finalik-right-inspector](docs/assets/img/RightArmIK.PNG)
 
 ## Data
 
@@ -72,13 +88,13 @@ If you find our research useful, please cite our paper:
 
 ```
 @article {ponton2022mmvr,
-	journal = {Computer Graphics Forum},
-	title = {{Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices}},
-	author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria},
-	year = {2022},
-	publisher = {The Eurographics Association and John Wiley & Sons Ltd.},
-	ISSN = {1467-8659},
-	DOI = {10.1111/cgf.14628}
+    journal = {Computer Graphics Forum},
+    title = {{Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices}},
+    author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria},
+    year = {2022},
+    publisher = {The Eurographics Association and John Wiley & Sons Ltd.},
+    ISSN = {1467-8659},
+    DOI = {10.1111/cgf.14628}
 }
 ```
 
