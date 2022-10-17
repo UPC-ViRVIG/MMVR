@@ -27,10 +27,22 @@ This project is based on my Motion Matching implementation for Unity. If you wan
 ## Contents
 
 1. [Structure](#structure)
+
 2. [Quick Start](#quick-start)
+   
+   * [Important Parameters](#important-parameters)
+   
+   * [Leg Bending](#leg-bending)
+   
+   * [Issues with Final IK](#issues-with-final-ik)
+
 3. [Data](#data)
-4. [Citation](#citation)
-5. [License](#license)
+
+4. [Training](#training)
+
+5. [Citation](#citation)
+
+6. [License](#license)
 
 ## Structure
 
@@ -50,15 +62,23 @@ The project is divided into two folders, ``MMVR`` and ``python``, containing the
 
 5. Use Oculus Link or Air Link to connect your Meta Quest to the PC and press Play in the Unity Editor. 
 
+### Important Parameters
+
 Demo scenes consist of two major GameObjects: VRCharacterController and MotionMatchingController:
 
-VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: *Use HMD Forward*, which ignores the orientation prediction and uses the HMD forward direction as body direction when set to True; *Do Campling*, which enables the position accuracy parameter and *Max Distance Simulation Bone* sets the position accuracy.
+VRCharacterController is responsible for creating the trajectories and the direction prediction, some important parameters are: 
+
+- **Use HMD Forward**, which ignores the orientation prediction and uses the HMD forward direction as body direction when set to True.
+
+- **Do Campling**, which enables the position accuracy parameter.
+
+- **Max Distance Simulation Bone** sets the position accuracy (e.g., use *0.3* for high animation quality and *0.1* for accurate body positioning).
 
 MotionMatchingController parameters allow enabling/disabling some features such as inertialize blending or foot lock.
 
-To obtain a more detailed description of how to use the Motion Matching code of this project, you can visit my [Motion Matching project](https://github.com/JLPM22/MotionMatching), on which this project is based.
+**To obtain a more detailed description of how to use the Motion Matching code of this project, you can visit my [Motion Matching project](https://github.com/JLPM22/MotionMatching), on which this project is based.**
 
-**Leg Bending**
+### Leg Bending
 
 To enable leg bending in the demo scene, first disable the GameObject with name *------Without Leg Bending------* and enable the one with name *------With Leg Bending-------*. The main difference lies in the MotionMatchingController, where the latter references the different databases for leg bending.
 
@@ -66,7 +86,7 @@ To enable leg bending in the demo scene, first disable the GameObject with name 
 
 At run-time, to calibrate the height, press the *B* button in your right controller while standing up. This is an important step to calibrate the Leg Bending.
 
-## Issues with Final IK
+### Issues with Final IK
 
 Sometimes, depending on the version of Final IK or how the project was imported, the references to Final IK scripts may be lost. In case references are lost, in the GameObject with the name Avatar (AvatarLegBending if using leg bending), there should be 3 scripts from Final IK as in the following pictures:
 
@@ -81,6 +101,12 @@ The processed data required to execute the project can be downloaded from [here]
 If you wish to download all raw *.bvh* files used for training the orientation prediction network and the motion matching animation database, download [here](https://zenodo.org/record/7048601/files/MMVR_Dataset.zip?download=1) instead.
 
 All motions are recorded by the same actor in different VR systems (Meta Quest and HTC VIVE) while performing different actions (VR applications and video games, and some interaction actions to increase the coverage of the dataset). The file *locomotion_vr.bvh* is used as the animation database for Motion Matching.
+
+## Training
+
+To train with your data, first, take a look at the *MotionSynthesisData* located in the folder ``Assets/MMData/Data``. There are two files named **TestMSData** and **TrainingMSData**. These are Unity ScriptableObjects and contain the *.bvh* and some information to process them (similar to MotionMatchingData) to create the database for training and testing. You can modify these two files with your own animation data and click *Generate Databases* before training the neural network.
+
+Once the databases are created, go to ``python/`` and create a python virtual environment ``python -m venv env`` (or ``python3 -m venv env``), activate it ```./env/Scripts/activate```, and install all dependencies ``pip install -r requirements.txt``. Then, open the script located at ``python/src/train_direction.py``, and modify the paths (lines *43* and *44*) to the training and testing databases. Finally, run the script for training! The resulting model will be saved in ``python/data/``.
 
 ## Citation
 

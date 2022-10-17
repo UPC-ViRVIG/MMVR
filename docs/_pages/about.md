@@ -29,6 +29,12 @@ permalink: /
 		<p><b>Data</b></p>
 	</div>
 	</a>
+	<a href="https://youtu.be/crU9oLX0GnM">
+	<div class="img-with-text">
+		<img src="assets/img/video_icon.svg" alt="video" />
+		<p><b>Video</b></p>
+	</div>
+	</a>
 </div>
 
 ------

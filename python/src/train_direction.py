@@ -14,9 +14,9 @@ from ray.tune.schedulers import ASHAScheduler
 
 # Hyperparameters
 use_tune = False
-use_adam = False
-epochs = 5
-filename_input = "data/direction_short_jl.onnx"
+use_adam = True
+epochs = 10
+filename_input = "data/direction_predictor.onnx"
 loss_type = "mse"  # "mse" or "dot"
 gamma = 0.95  # Decay factor for the learning rate
 # Learning
@@ -37,7 +37,7 @@ default_config = {
     "momentum": 0.9,
 }
 # Recursive Learning
-number_recursions = 10
+number_recursions = 50
 assert number_recursions >= 1
 
 path_training = "PATH_TO_YOUR_PROJECT/MMVR/Assets/MMData/Data/TrainingMSData/"
