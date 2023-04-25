@@ -188,7 +188,9 @@ Citation
 	{% endraw %}
 	author = {Ponton, Jose Luis and Yun, Haoran and Andujar, Carlos and Pelechano, Nuria}, <br>
 	year = {2022}, <br>
-	publisher = {The Eurographics Association and John Wiley & Sons Ltd.}, <br>
+	volume = {41}, <br>
+	number = {8}, <br>
+	pages = {107-118}, <br>
 	ISSN = {1467-8659}, <br>
 	DOI = {10.1111/cgf.14628} <br>
 }
