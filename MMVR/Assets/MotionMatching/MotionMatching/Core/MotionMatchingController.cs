@@ -21,7 +21,8 @@ namespace MotionMatching
         public Calibrator Calibrator;
         public SquatDataset[] SquatDatasets;
         public bool LockFPS = true;
-        public int SearchFrames = 10; // Motion Matching every SearchFrames frames
+        public float SearchTime = 10.0f / 60.0f; // Motion Matching search every SearchTime seconds
+        public bool UseBVHSearch = true; // Use Bounding Volume Hierarchy acceleration structure for the search.
         public bool Inertialize = true; // Should inertialize transitions after a big change of the pose
         public bool FootLock = true; // Should lock the feet to the ground when contact information is true
         public float FootUnlockDistance = 0.2f; // Distance from actual pose to IK target to unlock the feet
@@ -42,7 +43,8 @@ namespace MotionMatching
 
         public float3 Velocity { get; private set; }
         public float3 AngularVelocity { get; private set; }
-        public float FrameTime { get; private set; }
+        public float DatabaseFrameTime { get; private set; }
+        public int DatabaseFrameRate { get; private set; }
 
         private PoseSet PoseSet;
         private FeatureSet FeatureSet;
@@ -57,11 +59,17 @@ namespace MotionMatching
         private quaternion MMTransformOriginRot; // Rotation of the transform right after motion matching search
         private int LastMMSearchFrame; // Frame before the last Motion Matching Search
         public int CurrentFrame { get; private set; } // Current frame index in the pose/feature set
-        private int SearchFrameCount;
+        private float CurrentFrameTime; // Current frame index as float to keep track of variable frame rate
+        private float SearchTimeLeft;
         private NativeArray<float> QueryFeature;
         private NativeArray<int> SearchResult;
         private NativeArray<float> FeaturesWeightsNativeArray;
         private Inertialization Inertialization;
+        // BVH Acceleration Structure
+        public NativeArray<float>[] LargeBoundingBoxMin;
+        public NativeArray<float>[] LargeBoundingBoxMax;
+        public NativeArray<float>[] SmallBoundingBoxMin;
+        public NativeArray<float>[] SmallBoundingBoxMax;
         // Foot Lock
         private bool IsLeftFootContact, IsRightFootContact;
         private float3 LeftToesContactTarget, RightToesContactTarget; // Target position of the toes
@@ -112,15 +120,17 @@ namespace MotionMatching
             Inertialization = new Inertialization(PoseSet.Skeleton);
 
             // FPS
-            FrameTime = PoseSet.FrameTime;
+            DatabaseFrameTime = PoseSet.FrameTime;
+            DatabaseFrameRate = Mathf.RoundToInt(1.0f / DatabaseFrameTime);
             if (LockFPS)
             {
-                Application.targetFrameRate = Mathf.RoundToInt(1.0f / FrameTime);
+                Application.targetFrameRate = DatabaseFrameRate;
                 Debug.Log("[Motion Matching] Updated Target FPS: " + Application.targetFrameRate);
             }
             else
             {
                 Application.targetFrameRate = -1;
+                Debug.LogWarning("[Motion Matching] LockFPS is not set. Motion Matching will malfunction if the application frame rate is higher than the animation database.");
             }
 
             // Other initialization
@@ -135,6 +145,16 @@ namespace MotionMatching
             }
             FeaturesWeightsNativeArray = new NativeArray<float>(FeatureSet.FeatureSize, Allocator.Persistent);
             QueryFeature = new NativeArray<float>(FeatureSet.FeatureSize, Allocator.Persistent);
+            // Build BVH Acceleration Structure
+            LargeBoundingBoxMin = new NativeArray<float>[1 + SquatFeatureSets.Length];
+            LargeBoundingBoxMax = new NativeArray<float>[1 + SquatFeatureSets.Length];
+            SmallBoundingBoxMin = new NativeArray<float>[1 + SquatFeatureSets.Length];
+            SmallBoundingBoxMax = new NativeArray<float>[1 + SquatFeatureSets.Length];
+            BuildBVHAccelerationStructure(0, FeatureSet);
+            for (int i = 1; i < SquatFeatureSets.Length + 1; ++i)
+            {
+                BuildBVHAccelerationStructure(i, SquatFeatureSets[i - 1]);
+            }
             // Search first Frame valid (to start with a valid pose)
             for (int i = 0; i < FeatureSet.NumberFeatureVectors; i++)
             {
@@ -172,9 +192,32 @@ namespace MotionMatching
             CurrentRotationIndicator.transform.localPosition = Vector3.zero;
         }
 
+        private void BuildBVHAccelerationStructure(int i, FeatureSet featureSet)
+        {
+            int nFrames = (featureSet.GetFeatures().Length / featureSet.FeatureSize);
+            int numberBoundingBoxLarge = (nFrames + BVHConsts.LargeBVHSize - 1) / BVHConsts.LargeBVHSize;
+            int numberBoundingBoxSmall = (nFrames + BVHConsts.SmallBVHSize - 1) / BVHConsts.SmallBVHSize;
+            LargeBoundingBoxMin[i] = new NativeArray<float>(numberBoundingBoxLarge * featureSet.FeatureSize, Allocator.Persistent);
+            LargeBoundingBoxMax[i] = new NativeArray<float>(numberBoundingBoxLarge * featureSet.FeatureSize, Allocator.Persistent);
+            SmallBoundingBoxMin[i] = new NativeArray<float>(numberBoundingBoxSmall * featureSet.FeatureSize, Allocator.Persistent);
+            SmallBoundingBoxMax[i] = new NativeArray<float>(numberBoundingBoxSmall * featureSet.FeatureSize, Allocator.Persistent);
+            var job = new BVHMotionMatchingComputeBounds
+            {
+                Features = featureSet.GetFeatures(),
+                FeatureSize = featureSet.FeatureSize,
+                NumberBoundingBoxLarge = numberBoundingBoxLarge,
+                NumberBoundingBoxSmall = numberBoundingBoxSmall,
+                LargeBoundingBoxMin = LargeBoundingBoxMin[i],
+                LargeBoundingBoxMax = LargeBoundingBoxMax[i],
+                SmallBoundingBoxMin = SmallBoundingBoxMin[i],
+                SmallBoundingBoxMax = SmallBoundingBoxMax[i],
+            };
+            job.Schedule().Complete();
+        }
+
         private void OnEnable()
         {
-            SearchFrameCount = 0;
+            SearchTimeLeft = 0;
             CharacterController.OnUpdated += OnCharacterControllerUpdated;
             CharacterController.OnInputChangedQuickly += OnInputChangedQuickly;
         }
@@ -188,7 +231,7 @@ namespace MotionMatching
         private void OnCharacterControllerUpdated(float deltaTime)
         {
             PROFILE.BEGIN_SAMPLE_PROFILING("Motion Matching Total");
-            if (SearchFrameCount == 0)
+            if (SearchTimeLeft <= 0)
             {
                 // Determine squat level
                 int prevSquatIndex = SquatIndex;
@@ -220,6 +263,7 @@ namespace MotionMatching
                         Inertialization.PoseTransition(sourcePoseSet, targetPoseSet, CurrentFrame, bestFrame);
                     }
                     LastMMSearchFrame = CurrentFrame;
+                    CurrentFrameTime = bestFrame + math.frac(CurrentFrameTime); // the fractional part is the error accumulated, add it to the current to avoid drifting
                     CurrentFrame = bestFrame;
                     // Update Current Animation Space Origin
                     targetPoseSet.GetPose(CurrentFrame, out PoseVector mmPose);
@@ -228,15 +272,19 @@ namespace MotionMatching
                     MMTransformOriginPose = SkeletonTransforms[0].position;
                     MMTransformOriginRot = SkeletonTransforms[0].rotation;
                 }
-                SearchFrameCount = SearchFrames;
+                SearchTimeLeft = SearchTime;
             }
             else
             {
                 // Advance
-                SearchFrameCount -= 1;
+                SearchTimeLeft -= deltaTime;
             }
             // Always advance one (bestFrame from motion matching is the best match to the current frame, but we want to move to the next frame)
-            CurrentFrame += 1;
+            // Ideally the applications runs at 1.0f/FrameTime fps (to match the database) however, as this may not happen, we may need to skip some frames
+            // from the database, e.g., if 1.0f/FrameTime = 60 and our game runes at 30, we need to advance 2 frames at each update
+            // However, as we are using Application.targetFrameRate=1.0f/FrameTime, we do not consider the case where the application runs faster than the database
+            CurrentFrameTime += DatabaseFrameRate * deltaTime; // DatabaseFrameRate / (1.0f / deltaTime)
+            CurrentFrame = (int)math.floor(CurrentFrameTime);
 
             UpdateTransformAndSkeleton(CurrentFrame);
             PROFILE.END_SAMPLE_PROFILING("Motion Matching Total");
@@ -244,7 +292,7 @@ namespace MotionMatching
 
         private void OnInputChangedQuickly()
         {
-            SearchFrameCount = 0; // Force search
+            SearchTimeLeft = 0; // Force search
         }
 
         private int SearchMotionMatching(int previousSquatIndex)
@@ -257,7 +305,12 @@ namespace MotionMatching
             if (previousSquatIndex > 0) previousFeatureSet = SquatFeatureSets[previousSquatIndex - 1];
             // Current FeatureSet
             FeatureSet currentFeatureSet = FeatureSet;
-            if (SquatIndex > 0) currentFeatureSet = SquatFeatureSets[SquatIndex - 1];
+            int currentFeatureSetIndex = 0;
+            if (SquatIndex > 0)
+            {
+                currentFeatureSet = SquatFeatureSets[SquatIndex - 1];
+                currentFeatureSetIndex = SquatIndex; // SquatIndex - 1 + 1
+            }
 
             // Init Query Vector (with previous information)
             previousFeatureSet.GetFeature(QueryFeature, CurrentFrame);
@@ -282,18 +335,40 @@ namespace MotionMatching
             }
 
             // Search
-            var job = new LinearMotionMatchingSearchBurst
+            if (UseBVHSearch)
             {
-                Valid = currentFeatureSet.GetValid(),
-                Features = currentFeatureSet.GetFeatures(),
-                QueryFeature = QueryFeature,
-                FeatureWeights = FeaturesWeightsNativeArray,
-                FeatureSize = currentFeatureSet.FeatureSize,
-                PoseOffset = currentFeatureSet.PoseOffset,
-                CurrentDistance = currentDistance,
-                BestIndex = SearchResult
-            };
-            job.Schedule().Complete();
+                var job = new BVHMotionMatchingSearchBurst
+                {
+                    Valid = currentFeatureSet.GetValid(),
+                    Features = currentFeatureSet.GetFeatures(),
+                    QueryFeature = QueryFeature,
+                    FeatureWeights = FeaturesWeightsNativeArray,
+                    FeatureSize = currentFeatureSet.FeatureSize,
+                    PoseOffset = currentFeatureSet.PoseOffset,
+                    CurrentDistance = currentDistance,
+                    LargeBoundingBoxMin = LargeBoundingBoxMin[currentFeatureSetIndex],
+                    LargeBoundingBoxMax = LargeBoundingBoxMax[currentFeatureSetIndex],
+                    SmallBoundingBoxMin = SmallBoundingBoxMin[currentFeatureSetIndex],
+                    SmallBoundingBoxMax = SmallBoundingBoxMax[currentFeatureSetIndex],
+                    BestIndex = SearchResult
+                };
+                job.Schedule().Complete();
+            }
+            else
+            {
+                var job = new LinearMotionMatchingSearchBurst
+                {
+                    Valid = currentFeatureSet.GetValid(),
+                    Features = currentFeatureSet.GetFeatures(),
+                    QueryFeature = QueryFeature,
+                    FeatureWeights = FeaturesWeightsNativeArray,
+                    FeatureSize = currentFeatureSet.FeatureSize,
+                    PoseOffset = currentFeatureSet.PoseOffset,
+                    CurrentDistance = currentDistance,
+                    BestIndex = SearchResult
+                };
+                job.Schedule().Complete();
+            }
 
             // Check if use current or best
             int best = SearchResult[0];
@@ -578,7 +653,6 @@ namespace MotionMatching
             }
             for (int i = 0; i < MMData.PoseFeatures.Count; i++)
             {
-                PoseFeature feature = MMData.PoseFeatures[i];
                 float weight = FeatureWeights[i + MMData.TrajectoryFeatures.Count] * Quality;
                 FeaturesWeightsNativeArray[offset + 0] = weight;
                 FeaturesWeightsNativeArray[offset + 1] = weight;
@@ -611,6 +685,34 @@ namespace MotionMatching
             if (QueryFeature != null && QueryFeature.IsCreated) QueryFeature.Dispose();
             if (SearchResult != null && SearchResult.IsCreated) SearchResult.Dispose();
             if (FeaturesWeightsNativeArray != null && FeaturesWeightsNativeArray.IsCreated) FeaturesWeightsNativeArray.Dispose();
+            if (LargeBoundingBoxMin != null)
+            {
+                for (int i = 0; i < LargeBoundingBoxMin.Length; ++i)
+                {
+                    if (LargeBoundingBoxMin[i] != null && LargeBoundingBoxMin[i].IsCreated) LargeBoundingBoxMin[i].Dispose();
+                }
+            }
+            if (LargeBoundingBoxMax != null)
+            {
+                for (int i = 0; i < LargeBoundingBoxMax.Length; ++i)
+                {
+                    if (LargeBoundingBoxMax[i] != null && LargeBoundingBoxMax[i].IsCreated) LargeBoundingBoxMax[i].Dispose();
+                }
+            }
+            if (SmallBoundingBoxMin != null)
+            {
+                for (int i = 0; i < SmallBoundingBoxMin.Length; ++i)
+                {
+                    if (SmallBoundingBoxMin[i] != null && SmallBoundingBoxMin[i].IsCreated) SmallBoundingBoxMin[i].Dispose();
+                }
+            }
+            if (SmallBoundingBoxMax != null)
+            {
+                for (int i = 0; i < SmallBoundingBoxMax.Length; ++i)
+                {
+                    if (SmallBoundingBoxMax[i] != null && SmallBoundingBoxMax[i].IsCreated) SmallBoundingBoxMax[i].Dispose();
+                }
+            }
         }
 
         private void OnApplicationQuit()

@@ -36,7 +36,6 @@ public class VRCharacterController : MotionMatchingCharacterController
     private Tracker HMDTracker;
     private float3 PositionHMD; // Position of the Simulation Object (controller) for HMD
     private quaternion RotationHMD; // Rotation of the Simulation Object (controller) for HMD
-    private int HeadJointIndex;
     private float PreviousHMDDesiredSpeedSq;
     private VRDirectionPredictor DirectionPredictor;
 
@@ -54,13 +53,7 @@ public class VRCharacterController : MotionMatchingCharacterController
         PositionHMD = new float3();
         RotationHMD = new quaternion();
 
-        if (!SimulationBone.GetSkeleton().Find(HumanBodyBones.Head, out Skeleton.Joint headJoint))
-        {
-            Debug.LogError("Could not find head joint");
-        }
-        HeadJointIndex = headJoint.Index;
-
-        Application.targetFrameRate = AverageFPS;
+        Application.targetFrameRate = Mathf.RoundToInt(1.0f / DatabaseDeltaTime);
     }
 
     protected override void OnUpdate()
@@ -81,10 +74,10 @@ public class VRCharacterController : MotionMatchingCharacterController
         quaternion desiredRotation = tracker.DesiredRotation;
 
         // Rotations
-        tracker.PredictRotations(currentRot, desiredRotation, AveragedDeltaTime);
+        tracker.PredictRotations(currentRot, desiredRotation, DatabaseDeltaTime);
 
         // Positions
-        tracker.PredictPositions(currentPos, desiredVelocity, AveragedDeltaTime);
+        tracker.PredictPositions(currentPos, desiredVelocity, DatabaseDeltaTime);
 
         // Update Character Controller
         PositionHMD = HMDTracker.Device.position;
@@ -331,7 +324,7 @@ public class VRCharacterController : MotionMatchingCharacterController
 
         public float3 GetSmoothedVelocity()
         {
-            float dt = Controller.AveragedDeltaTime;
+            float dt = Controller.DatabaseDeltaTime;
             float3 currentInputPos = (float3)Device.position;
             float3 currentSpeed = (currentInputPos - PrevInputPos) / dt; // pretend it's fixed frame rate
             PrevInputPos = currentInputPos;

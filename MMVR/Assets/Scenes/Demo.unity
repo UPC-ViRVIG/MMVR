@@ -362,7 +362,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulationBone: {fileID: 710769420}
-  AverageFPS: 72
   HMDDevice: {fileID: 446502067}
   UseHMDForward: 0
   ResponsivenessPositions: 0.7
@@ -596,8 +595,9 @@ MonoBehaviour:
     PercentageHeight: 0.85
   - MMData: {fileID: 11400000, guid: 0883fa97433484d4f9c227fca67643cc, type: 2}
     PercentageHeight: 0.65
-  LockFPS: 0
-  SearchFrames: 10
+  LockFPS: 1
+  SearchTime: 0.1388889
+  UseBVHSearch: 1
   Inertialize: 1
   FootLock: 1
   FootUnlockDistance: 0.2
@@ -1163,9 +1163,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1783246767}
   - {fileID: 74260440}
   - {fileID: 1786070641}
+  - {fileID: 1783246767}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1288,8 +1288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulationBone: {fileID: 1786070640}
-  AverageFPS: 72
-  HMDDevice: {fileID: 446502067}
+  HMDDevice: {fileID: 40837619}
   UseHMDForward: 0
   ResponsivenessPositions: 0.7
   ResponsivenessDirections: 0.7
@@ -1317,7 +1316,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1530480530}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1783246768
 MonoBehaviour:
@@ -1376,8 +1375,9 @@ MonoBehaviour:
   MMData: {fileID: 11400000, guid: a3adc94482efd8f47894c74d70aa0da0, type: 2}
   Calibrator: {fileID: 1725389248}
   SquatDatasets: []
-  LockFPS: 0
-  SearchFrames: 10
+  LockFPS: 1
+  SearchTime: 0.1388889
+  UseBVHSearch: 1
   Inertialize: 1
   FootLock: 1
   FootUnlockDistance: 0.2
@@ -1413,7 +1413,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1530480530}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2050188769
 GameObject:
@@ -1574,7 +1574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1795449175783500850, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1795449175783500850, guid: dd187f127561b6e4eaa21baf55b76917, type: 3}
       propertyPath: m_LocalPosition.x
