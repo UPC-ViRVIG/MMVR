@@ -14,7 +14,7 @@ This repository contains the implementation of the method shown in the paper *Co
 
 Get an overview of the paper by visiting the [project website](https://upc-virvig.github.io/MMVR/) or watching the [video](https://www.youtube.com/embed/crU9oLX0GnM)!
 
-Download the paper [here](docs/assets/pdf/motion_matching_vr.pdf)!
+Download the paper [here](https://doi.org/10.1111/cgf.14628)!
 
 This project is based on my Motion Matching implementation for Unity. If you want to learn more about Motion Matching, you can visit the project [here](https://github.com/JLPM22/MotionMatching).
 
@@ -27,21 +27,13 @@ This project is based on my Motion Matching implementation for Unity. If you wan
 ## Contents
 
 1. [Structure](#structure)
-
 2. [Quick Start](#quick-start)
-   
    * [Important Parameters](#important-parameters)
-   
    * [Leg Bending](#leg-bending)
-   
    * [Issues with Final IK](#issues-with-final-ik)
-
 3. [Data](#data)
-
 4. [Training](#training)
-
 5. [Citation](#citation)
-
 6. [License](#license)
 
 ## Structure
