@@ -761,6 +761,9 @@ MonoBehaviour:
   LeftIKTarget: {fileID: 1030292549}
   RightIKTarget: {fileID: 1370596361}
   LookAtIKTarget: {fileID: 1290278861}
+  Calibrator: {fileID: 1725389248}
+  OculusCenterEye: {fileID: 40837619}
+  SimulatorCenterEye: {fileID: 1364905911}
   IsSimulator: 0
 --- !u!4 &1337947320
 Transform:
@@ -1004,6 +1007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HMD: {fileID: 40837619}
   Avatar: {fileID: 74260440}
+  MotionMatching: {fileID: 1786070641}
   AvatarEyes: {fileID: 214933636}
 --- !u!4 &1725389249
 Transform:
@@ -1056,8 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulationBone: {fileID: 1786070640}
-  AverageFPS: 72
-  HMDDevice: {fileID: 446502067}
+  HMDDevice: {fileID: 40837619}
   UseHMDForward: 0
   ResponsivenessPositions: 0.7
   ResponsivenessDirections: 0.7
@@ -1145,7 +1148,8 @@ MonoBehaviour:
   Calibrator: {fileID: 1725389248}
   SquatDatasets: []
   LockFPS: 0
-  SearchFrames: 10
+  SearchTime: 0.16666667
+  UseBVHSearch: 1
   Inertialize: 1
   FootLock: 1
   FootUnlockDistance: 0.2

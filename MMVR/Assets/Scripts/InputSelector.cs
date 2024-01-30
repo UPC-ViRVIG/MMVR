@@ -16,6 +16,9 @@ public class InputSelector : MonoBehaviour
     public Transform LeftIKTarget;
     public Transform RightIKTarget;
     public Transform LookAtIKTarget;
+    public Calibrator Calibrator;
+    public Transform OculusCenterEye;
+    public Transform SimulatorCenterEye;
     [HideInInspector] public bool IsSimulator;
 
     private void Update()
@@ -47,6 +50,7 @@ public class InputSelector : MonoBehaviour
         VRDirectionPredictor.LeftController = LeftRightCenterBodyOculus[0].transform;
         VRDirectionPredictor.RightController = LeftRightCenterBodyOculus[1].transform;
         VRCharacterController.HMDDevice = LeftRightCenterBodyOculus[2].transform;
+        Calibrator.HMD = OculusCenterEye;
         IsSimulator = false;
     }
 
@@ -59,6 +63,7 @@ public class InputSelector : MonoBehaviour
         VRDirectionPredictor.LeftController = LeftRightCenterBodySimulator[0].transform;
         VRDirectionPredictor.RightController = LeftRightCenterBodySimulator[1].transform;
         VRCharacterController.HMDDevice = LeftRightCenterBodySimulator[2].transform;
+        Calibrator.HMD = SimulatorCenterEye;
         IsSimulator = true;
     }
 }
@@ -80,6 +85,7 @@ public class InputSelectorEditor : UnityEditor.Editor
             UnityEditor.EditorUtility.SetDirty(inputSelector.VRDirectionPredictor);
             UnityEditor.EditorUtility.SetDirty(inputSelector.SimulatorRig);
             UnityEditor.EditorUtility.SetDirty(inputSelector.OculusRig);
+            UnityEditor.EditorUtility.SetDirty(inputSelector.Calibrator.gameObject);
             UnityEditor.EditorUtility.SetDirty(target);
         }
         GUI.enabled = !inputSelector.IsSimulator;
@@ -89,6 +95,7 @@ public class InputSelectorEditor : UnityEditor.Editor
             UnityEditor.EditorUtility.SetDirty(inputSelector.VRDirectionPredictor);
             UnityEditor.EditorUtility.SetDirty(inputSelector.SimulatorRig);
             UnityEditor.EditorUtility.SetDirty(inputSelector.OculusRig);
+            UnityEditor.EditorUtility.SetDirty(inputSelector.Calibrator.gameObject);
             UnityEditor.EditorUtility.SetDirty(target);
         }
         GUI.enabled = true;

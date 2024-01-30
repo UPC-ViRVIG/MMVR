@@ -6,6 +6,7 @@ public class Calibrator : MonoBehaviour
 {
     public Transform HMD;
     public Transform Avatar;
+    public Transform MotionMatching;
     public Transform AvatarEyes;
     public float EyesHeight { get; private set; }
     public float HMDHeight
@@ -28,9 +29,40 @@ public class Calibrator : MonoBehaviour
     {
         if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch) && LastCalibrateTime + CALIBRATE_COOLDOWN < Time.time)
         {
-            EyesHeight = HMDHeight;
-            Avatar.localScale = new Vector3(1, 1, 1) * (EyesHeight / AvatarEyes.position.y);
-            LastCalibrateTime = Time.time;
+            Calibrate();
+        }
+    }
+
+    public void Calibrate()
+    {
+        EyesHeight = HMDHeight;
+        Vector3 localScale = new Vector3(1, 1, 1) * (EyesHeight / AvatarEyes.position.y);
+        Avatar.localScale = localScale;
+        MotionMatching.localScale = localScale;
+        LastCalibrateTime = Time.time;
+    }
+}
+
+#if UNITY_EDITOR
+
+[UnityEditor.CustomEditor(typeof(Calibrator))]
+public class CalibratorEditor : UnityEditor.Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+
+        Calibrator calibrator = (Calibrator)target;
+        if (GUILayout.Button("Calibrate"))
+        {
+            calibrator.Calibrate();
         }
     }
 }
+
+#endif
