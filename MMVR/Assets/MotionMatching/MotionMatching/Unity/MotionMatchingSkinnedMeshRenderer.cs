@@ -10,7 +10,6 @@ namespace MotionMatching
     public class MotionMatchingSkinnedMeshRenderer : MonoBehaviour
     {
         public MotionMatchingController MotionMatching;
-        [Tooltip("Local vector (axis) pointing in the forward direction of the character")] public Vector3 ForwardLocalVector = new Vector3(0, 0, 1);
 
         private Animator Animator;
 
@@ -67,12 +66,51 @@ namespace MotionMatching
                     SourceTPose[i] = tposeAnimation.GetWorldRotation(joint, 0);
                 }
             }
+            // Target
+            Quaternion avatarRot = Animator.transform.rotation;
+            SkeletonBone[] targetSkeletonBones = Animator.avatar.humanDescription.skeleton;
+            Quaternion hipsRot = avatarRot;
+            for (int i = 0; i < BodyJoints.Length; i++)
+            {
+                Transform targetJoint = Animator.GetBoneTransform(BodyJoints[i]);
+
+                // Use Array.FindIndex to find the index of the joint in the targetSkeletonBones array
+                int targetJointIndex = Array.FindIndex(targetSkeletonBones, bone => bone.name == targetJoint.name);
+                Debug.Assert(targetJointIndex != -1, "Target joint not found: " + targetJoint.name);
+
+                // Initialize the rotation as the local rotation of the joint
+                Quaternion cumulativeRotation = targetSkeletonBones[targetJointIndex].rotation;
+
+                // Traverse up the hierarchy until reaching the Animator's transform
+                Transform currentTransform = targetJoint.parent;
+                while (currentTransform != null && currentTransform != Animator.transform)
+                {
+                    int parentIndex = Array.FindIndex(targetSkeletonBones, bone => bone.name == currentTransform.name);
+                    if (parentIndex != -1)
+                    {
+                        // Multiply with the parent's local rotation
+                        cumulativeRotation = targetSkeletonBones[parentIndex].rotation * cumulativeRotation;
+                    }
+                    Debug.Assert(parentIndex != -1, "Parent joint not found: " + currentTransform.name);
+
+                    // Move to the next parent in the hierarchy
+                    currentTransform = currentTransform.parent;
+                }
+
+                // Store the world rotation
+                TargetTPose[i] = cumulativeRotation;
+                if (BodyJoints[i] == HumanBodyBones.Hips)
+                {
+                    hipsRot = math.mul(avatarRot, cumulativeRotation);
+                }
+            }
             // Correct rotations so they are facing the same direction as the target
             // Correct Source
             float3 currentDirection = math.mul(SourceTPose[0], mmData.HipsForwardLocalVector);
             currentDirection.y = 0;
             currentDirection = math.normalize(currentDirection);
-            float3 targetDirection = transform.TransformDirection(ForwardLocalVector);
+            float3 forwardLocalVector = math.mul(math.inverse(hipsRot), math.forward());
+            float3 targetDirection = transform.TransformDirection(forwardLocalVector);
             targetDirection.y = 0;
             targetDirection = math.normalize(targetDirection);
             quaternion correctionRot = MathExtensions.FromToRotation(currentDirection, targetDirection, new float3(0, 1, 0));
@@ -80,14 +118,6 @@ namespace MotionMatching
             {
                 SourceTPose[i] = math.mul(correctionRot, SourceTPose[i]);
             }
-            // Target
-            Quaternion rot = Animator.transform.rotation;
-            Animator.transform.rotation = Quaternion.identity;
-            for (int i = 0; i < BodyJoints.Length; i++)
-            {
-                TargetTPose[i] = Animator.GetBoneTransform(BodyJoints[i]).rotation;
-            }
-            Animator.transform.rotation = rot;
             // Store Transforms
             Transform[] mmBones = MotionMatching.GetSkeletonTransforms();
             Dictionary<string, Transform> boneDict = new Dictionary<string, Transform>();
@@ -195,13 +225,5 @@ namespace MotionMatching
             HumanBodyBones.RightFoot,
             HumanBodyBones.RightToes
         };
-
-        private void OnValidate()
-        {
-            if (math.abs(math.length(ForwardLocalVector)) < 1E-3f)
-            {
-                Debug.LogWarning("ForwardLocalVector is too close to zero. Object: " + name);
-            }
-        }
     }
 }
