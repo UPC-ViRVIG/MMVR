@@ -12,7 +12,6 @@ public class InputSelector : MonoBehaviour
     public GameObject LookAtOculus;
     public GameObject LookAtSimulator;
     public VRCharacterController VRCharacterController;
-    public VRDirectionPredictor VRDirectionPredictor;
     public Transform LeftIKTarget;
     public Transform RightIKTarget;
     public Transform LookAtIKTarget;
@@ -45,10 +44,6 @@ public class InputSelector : MonoBehaviour
     {
         SimulatorRig.SetActive(false);
         OculusRig.SetActive(true);
-        VRDirectionPredictor.HMDDevice = LeftRightCenterBodyOculus[2].transform;
-        VRDirectionPredictor.HMDBodyCenter = LeftRightCenterBodyOculus[3].transform;
-        VRDirectionPredictor.LeftController = LeftRightCenterBodyOculus[0].transform;
-        VRDirectionPredictor.RightController = LeftRightCenterBodyOculus[1].transform;
         VRCharacterController.HMDDevice = LeftRightCenterBodyOculus[2].transform;
         Calibrator.HMD = OculusCenterEye;
         IsSimulator = false;
@@ -58,10 +53,6 @@ public class InputSelector : MonoBehaviour
     {
         SimulatorRig.SetActive(true);
         OculusRig.SetActive(false);
-        VRDirectionPredictor.HMDDevice = LeftRightCenterBodySimulator[2].transform;
-        VRDirectionPredictor.HMDBodyCenter = LeftRightCenterBodySimulator[3].transform;
-        VRDirectionPredictor.LeftController = LeftRightCenterBodySimulator[0].transform;
-        VRDirectionPredictor.RightController = LeftRightCenterBodySimulator[1].transform;
         VRCharacterController.HMDDevice = LeftRightCenterBodySimulator[2].transform;
         Calibrator.HMD = SimulatorCenterEye;
         IsSimulator = true;
@@ -82,7 +73,6 @@ public class InputSelectorEditor : UnityEditor.Editor
         if (GUILayout.Button("Set Oculus Input"))
         {
             inputSelector.SetOculusInput();
-            UnityEditor.EditorUtility.SetDirty(inputSelector.VRDirectionPredictor);
             UnityEditor.EditorUtility.SetDirty(inputSelector.SimulatorRig);
             UnityEditor.EditorUtility.SetDirty(inputSelector.OculusRig);
             UnityEditor.EditorUtility.SetDirty(inputSelector.Calibrator.gameObject);
@@ -92,7 +82,6 @@ public class InputSelectorEditor : UnityEditor.Editor
         if (GUILayout.Button("Set Simulator Input"))
         {
             inputSelector.SetSimulatorInput();
-            UnityEditor.EditorUtility.SetDirty(inputSelector.VRDirectionPredictor);
             UnityEditor.EditorUtility.SetDirty(inputSelector.SimulatorRig);
             UnityEditor.EditorUtility.SetDirty(inputSelector.OculusRig);
             UnityEditor.EditorUtility.SetDirty(inputSelector.Calibrator.gameObject);
